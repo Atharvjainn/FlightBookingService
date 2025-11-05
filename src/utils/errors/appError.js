@@ -8,6 +8,7 @@ class AppError extends Error{
         explanation = "Something went wrong.... try again later",
         statusCode = StatusCodes.INTERNAL_SERVER_ERROR
     ){
+        super()
         this.name = name,
         this.message = message,
         this.explanation = explanation,

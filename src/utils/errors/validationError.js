@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes')
 
 class ValidationError extends Error{
     constructor(error){
+        super()
         this.name = "ValidationError"
         const explanation = []
         error.errors.forEach((err) => {
