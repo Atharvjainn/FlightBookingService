@@ -15,7 +15,19 @@ class BookingRepository{
         }
     }
 
-    // async UpdateBooking()
+    async UpdateBooking(data,bookingId){
+        try {
+            const booking = await Booking.findByPk(bookingId)
+            booking.status = data.status
+            await booking.save()
+            return booking
+        } catch (error) {
+            if(error.name = "SequelizeValidationError"){
+                throw new ValidationError(error)
+            }
+            throw new AppError()
+        }
+    }
 }
 
 

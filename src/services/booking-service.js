@@ -23,7 +23,11 @@ class BookingService{
             const totalCost = flight.price * data.noofSeats
             const booking_payload = {...data , totalCost}
             console.log(booking_payload);
-            return flight
+            const booking = await this.bookingRepository.CreateBooking(booking_payload)
+            const updateURL = `${FLIGHT_PATH}/${booking_payload.flightId}`
+            await axios.patch(updateURL,{totalSeats : flight.totalSeats - booking_payload.noofSeats})
+            const finalBooking = await this.bookingRepository.UpdateBooking({status : "Booked"},booking.id)
+            return finalBooking
             
             
             
@@ -32,6 +36,18 @@ class BookingService{
         } catch (error) { 
             console.log(error);
             
+            if(error.name == "SequelizeValidationError" || error.name == "AppError" || error.name == "ServiceError"){
+                throw error;
+            }
+            throw new ServiceError()
+        }
+    }
+
+
+    async update(data,bookingId){
+        try {
+            const response = this.bookingRepository.UpdateBooking(data,bookingId)
+        } catch (error) {
             if(error.name == "SequelizeValidationError" || error.name == "AppError" || error.name == "ServiceError"){
                 throw error;
             }

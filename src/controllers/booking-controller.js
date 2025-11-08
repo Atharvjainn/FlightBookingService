@@ -25,6 +25,28 @@ const create = async (req,res) => {
     }
 }
 
+
+const update = async (req,res) => {
+    try {
+        const flight = await bookingService.update(req.body,req.params.id)
+        return res.status(StatusCodes.ACCEPTED).json({
+            data : flight,
+            success : true,
+            message : "Booking updated successfully!",
+            err : {}
+        })
+    } catch (error) {
+        console.log("Controller error",error.statusCode);
+        return res.status(error.statusCode).json({
+            data : {},
+            success : false,
+            message : error.message,
+            err : error.explanation
+        })
+        
+    }
+}
+
 module.exports = {
-    create
+    create,update
 }
