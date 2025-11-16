@@ -28,11 +28,7 @@ class BookingService{
             await axios.patch(updateURL,{totalSeats : flight.totalSeats - booking_payload.noofSeats})
             const finalBooking = await this.bookingRepository.UpdateBooking({status : "Booked"},booking.id)
             return finalBooking
-            
-            
-            
-            
-            
+           
         } catch (error) { 
             console.log(error);
             
